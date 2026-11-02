@@ -26,6 +26,14 @@
   <img src="assets/radar.svg" width="88%" alt="tech radar"/>
 </p>
 
+<h3 align="center"><code>[ PROJECTS ]</code></h3>
+
+<p align="center">
+  <a href="https://github.com/njuj/kira-scan"><img src="assets/card-kira-scan.svg" width="49%" alt="kira-scan: zero-dependency static malware triage"/></a>
+  <a href="https://github.com/njuj/headerguard"><img src="assets/card-headerguard.svg" width="49%" alt="headerguard: HTTP security header grader"/></a>
+  <a href="https://njuj.github.io/ioc-hunter/"><img src="assets/card-ioc-hunter.svg" width="49%" alt="ioc-hunter: client-side IOC extractor (live)"/></a>
+</p>
+
 <h3 align="center"><code>[ ARSENAL ]</code></h3>
 
 <p align="center">
