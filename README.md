@@ -33,6 +33,7 @@
   <a href="https://github.com/njuj/headerguard"><img src="assets/card-headerguard.svg" width="49%" alt="headerguard: HTTP security header grader"/></a>
   <a href="https://njuj.github.io/ioc-hunter/"><img src="assets/card-ioc-hunter.svg" width="49%" alt="ioc-hunter: client-side IOC extractor (live)"/></a>
   <a href="https://github.com/njuj/slopcheck"><img src="assets/card-slopcheck.svg" width="49%" alt="slopcheck: catches hallucinated packages and insecure AI-written code"/></a>
+  <a href="https://github.com/njuj/mailguard"><img src="assets/card-mailguard.svg" width="49%" alt="mailguard: grades a domain's SPF, DKIM, DMARC and MTA-STS from DNS"/></a>
 </p>
 
 <h3 align="center"><code>[ ARSENAL ]</code></h3>
