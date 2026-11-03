@@ -29,6 +29,8 @@
 <h3 align="center"><code>[ PROJECTS ]</code></h3>
 
 <p align="center">
+  <a href="https://github.com/njuj/ghost-hunter"><img src="assets/card-ghost-hunter.svg" width="49%" alt="ghost-hunter: finds code injected into running Windows processes"/></a>
+  <a href="https://github.com/njuj/provenance"><img src="assets/card-provenance.svg" width="49%" alt="provenance: checks that an npm or PyPI release is the code in its repository"/></a>
   <a href="https://github.com/njuj/evtx-hunter"><img src="assets/card-evtx-hunter.svg" width="49%" alt="evtx-hunter: hunts attackers in Windows event logs and recovers records hidden from Event Viewer"/></a>
   <a href="https://github.com/njuj/unwrap"><img src="assets/card-unwrap.svg" width="49%" alt="unwrap: static layer-by-layer deobfuscator for PowerShell, JavaScript, VBScript and batch"/></a>
   <a href="https://github.com/njuj/bundle-leak"><img src="assets/card-bundle-leak.svg" width="49%" alt="bundle-leak: finds secret keys and source maps a web app ships to every visitor"/></a>
