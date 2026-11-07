@@ -41,6 +41,8 @@
   <a href="https://github.com/njuj/headerguard"><img src="assets/card-headerguard.svg" width="49%" alt="headerguard: HTTP security header grader"/></a>
   <a href="https://njuj.github.io/ioc-hunter/"><img src="assets/card-ioc-hunter.svg" width="49%" alt="ioc-hunter: client-side IOC extractor (live)"/></a>
   <a href="https://github.com/njuj/mailguard"><img src="assets/card-mailguard.svg" width="49%" alt="mailguard: grades a domain's SPF, DKIM, DMARC and MTA-STS from DNS"/></a>
+  <a href="https://github.com/njuj/unmask"><img src="assets/card-unmask.svg" width="49%" alt="unmask: follows a malware delivery chain to the njRAT or XWorm at its end and decrypts its configuration"/></a>
+  <a href="https://github.com/njuj/driver-guard"><img src="assets/card-driver-guard.svg" width="49%" alt="driver-guard: finds vulnerable and malicious kernel drivers attackers use to switch off antivirus"/></a>
 </p>
 
 <h3 align="center"><code>[ ARSENAL ]</code></h3>
