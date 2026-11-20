@@ -89,7 +89,15 @@
   <img src="https://img.shields.io/badge/x64dbg-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" alt="x64dbg"/>
   <img src="https://img.shields.io/badge/Ghidra-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" alt="Ghidra"/>
   <img src="https://img.shields.io/badge/dnSpy-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" alt="dnSpy"/>
+  <img src="https://img.shields.io/badge/Detect_It_Easy-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" alt="Detect It Easy"/>
   <img src="https://img.shields.io/badge/YARA-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" alt="YARA"/>
+  <br/>
+  <img src="https://img.shields.io/badge/Volatility-0b0f17?style=for-the-badge&labelColor=0b0f17&color=00e5ff" alt="Volatility"/>
+  <img src="https://img.shields.io/badge/Sysinternals-0b0f17?style=for-the-badge&labelColor=0b0f17&color=00e5ff" alt="Sysinternals"/>
+  <img src="https://img.shields.io/badge/CyberChef-0b0f17?style=for-the-badge&labelColor=0b0f17&color=00e5ff" alt="CyberChef"/>
+  <img src="https://img.shields.io/badge/Nmap-0b0f17?style=for-the-badge&labelColor=0b0f17&color=00e5ff" alt="Nmap"/>
+  <img src="https://img.shields.io/badge/Metasploit-0b0f17?style=for-the-badge&labelColor=0b0f17&color=00e5ff" alt="Metasploit"/>
+  <img src="https://img.shields.io/badge/VirusTotal-0b0f17?style=for-the-badge&labelColor=0b0f17&color=00e5ff" alt="VirusTotal"/>
   <br/>
   <img src="https://img.shields.io/badge/Kali_Linux-0b0f17?style=for-the-badge&logo=kalilinux&logoColor=00ff9c" alt="Kali Linux"/>
   <img src="https://img.shields.io/badge/Arch_Linux-0b0f17?style=for-the-badge&logo=archlinux&logoColor=00ff9c" alt="Arch Linux"/>
@@ -97,6 +105,11 @@
   <img src="https://img.shields.io/badge/Wireshark-0b0f17?style=for-the-badge&logo=wireshark&logoColor=00ff9c" alt="Wireshark"/>
   <img src="https://img.shields.io/badge/Burp_Suite-0b0f17?style=for-the-badge&logo=burpsuite&logoColor=00ff9c" alt="Burp Suite"/>
   <img src="https://img.shields.io/badge/Obsidian-0b0f17?style=for-the-badge&logo=obsidian&logoColor=00ff9c" alt="Obsidian"/>
+  <br/>
+  <img src="https://img.shields.io/badge/Claude_Code-0b0f17?style=for-the-badge&logo=claude&logoColor=b388ff" alt="Claude Code"/>
+  <img src="https://img.shields.io/badge/Cursor-0b0f17?style=for-the-badge&logo=cursor&logoColor=b388ff" alt="Cursor"/>
+  <img src="https://img.shields.io/badge/MCP-0b0f17?style=for-the-badge&logo=modelcontextprotocol&logoColor=b388ff" alt="MCP"/>
+  <img src="https://img.shields.io/badge/GitHub_Actions-0b0f17?style=for-the-badge&logo=githubactions&logoColor=b388ff" alt="GitHub Actions"/>
 </p>
 
 <p align="center">
