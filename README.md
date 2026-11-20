@@ -22,8 +22,6 @@
 <p align="center">
   <img src="assets/heartbeat.svg" width="88%" alt="heartbeat drawn from the last 60 days of commits, refreshed daily"/>
 </p>
- width="88%" alt="kira@njuj terminal session"/>
-</p>
 
 <br/>
 
