@@ -4,7 +4,7 @@
 -->
 
 <p align="center">
-  <img src="assets/header.svg" width="100%" alt="KIRA — Malware Hunter · Security Analyst · Web Developer · Vibe Coder"/>
+  <img src="assets/header.svg" width="100%" alt="KIRA — Malware Hunter · Reverse Engineer · DFIR · Bug Hunter · Tool Builder"/>
 </p>
 
 <p align="center">
@@ -22,8 +22,22 @@
 
 <br/>
 
+<h3 align="center"><code>[ LIVE DISSECTION ]</code></h3>
+
+<p align="center">
+  <img src="assets/lab.svg" width="88%" alt="unmask tracing a fake FPS booster to the njRAT inside and decrypting its C2 config, without ever running it"/>
+</p>
+
+<br/>
+
 <p align="center">
   <img src="assets/radar.svg" width="88%" alt="tech radar"/>
+</p>
+
+<h3 align="center"><code>[ OBSESSIONS ]</code></h3>
+
+<p align="center">
+  <img src="assets/orbit.svg" width="94%" alt="interests orbiting a watching eye: reverse engineering, malware analysis, DFIR, Windows internals, tool building, bug bounty, AI security, VM labs, second brain, CTF and crackmes, full-stack, nyx CYBERTOOL"/>
 </p>
 
 <h3 align="center"><code>[ PROJECTS ]</code></h3>
@@ -56,7 +70,17 @@
 </p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/IDA-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" />
+  <img src="https://img.shields.io/badge/x64dbg-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" />
+  <img src="https://img.shields.io/badge/Ghidra-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" />
+  <img src="https://img.shields.io/badge/dnSpy-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" />
+  <img src="https://img.shields.io/badge/Detect_It_Easy-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" />
+  <img src="https://img.shields.io/badge/YARA-0b0f17?style=for-the-badge&labelColor=0b0f17&color=ff0055" />
+  <br/>
   <img src="https://img.shields.io/badge/Kali_Linux-0b0f17?style=for-the-badge&logo=kalilinux&logoColor=00ff9c" />
+  <img src="https://img.shields.io/badge/Arch_Linux-0b0f17?style=for-the-badge&logo=archlinux&logoColor=00ff9c" />
+  <img src="https://img.shields.io/badge/VirtualBox-0b0f17?style=for-the-badge&logo=virtualbox&logoColor=00ff9c" />
+  <img src="https://img.shields.io/badge/Obsidian-0b0f17?style=for-the-badge&logo=obsidian&logoColor=00ff9c" />
   <img src="https://img.shields.io/badge/Wireshark-0b0f17?style=for-the-badge&logo=wireshark&logoColor=00ff9c" />
   <img src="https://img.shields.io/badge/Burp_Suite-0b0f17?style=for-the-badge&logo=burpsuite&logoColor=00ff9c" />
   <img src="https://img.shields.io/badge/Metasploit-0b0f17?style=for-the-badge&logo=metasploit&logoColor=00ff9c" />
