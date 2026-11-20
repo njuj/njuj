@@ -188,6 +188,49 @@ def orbit():
 
 
 # ---------------------------------------------------------------- intro.svg
+def ridges(fx, fy, rx=66, ry=88, gap=5.4):
+    """Fingerprint ridge polylines: (index, path, dasharray). Level lines of a field with a hairpin core and flattening arches."""
+    r2 = random.Random(7)
+    cx, cy = fx + 3, fy - 16
+
+    def phi(dx, dy):
+        wx, wy = dx + 3.4 * math.sin(dy / 15 + 1), dy + 2.2 * math.sin(dx / 12)
+        wx += 0.18 * wy  # slight slant, like a real loop
+        dyp = wy + 12 if wy < -12 else (0 if wy < 0 else wy)  # core is a short segment, so inner ridges are hairpins
+        w = 1 / (1 + (max(wy, 0) / 24) ** 2)  # below the core ridges flatten into arches
+        return math.sqrt(wx * wx * w + dyp * dyp * .8)
+
+    out, k = [], 0
+    while True:
+        k += 1
+        lv, pts = k * gap, []
+        for i in range(260):
+            t = 2 * math.pi * i / 259
+            c, sn, r = math.cos(t), math.sin(t), 0.0
+            while r < 260 and phi(r * c, r * sn) < lv:
+                r += 1.5
+            lo, hi = max(r - 1.5, 0), r
+            for _ in range(8):
+                mid = (lo + hi) / 2
+                lo, hi = (mid, hi) if phi(mid * c, mid * sn) < lv else (lo, mid)
+            pts.append((cx + hi * c, cy + hi * sn))
+        inside = [((x - fx) / rx) ** 2 + ((y - fy) / ry) ** 2 <= 1 for x, y in pts]
+        if not any(inside):
+            break
+        segs, cur = [], []
+        for (x, y), ok in zip(pts, inside):
+            if ok:
+                cur.append(f"{x:.1f} {y:.1f}")
+            elif cur:
+                segs.append(cur); cur = []
+        if cur:
+            segs.append(cur)
+        d = " ".join("M" + " L".join(sg) for sg in segs if len(sg) > 1)
+        dash = " ".join(f"{r2.uniform(30, 120):.0f} {r2.uniform(3, 6):.1f}" for _ in range(6))
+        out.append((k, d, dash))
+    return out
+
+
 def intro():
     W, H, FX, FY = 900, 320, 190, 160
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{FONT}">',
@@ -202,25 +245,29 @@ def intro():
          '</style>'
          f'<radialGradient id="vig" r=".8"><stop offset=".5" stop-color="{RED}" stop-opacity="0"/><stop offset="1" stop-color="{RED}" stop-opacity=".45"/></radialGradient>'
          f'<pattern id="crt" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#000" opacity=".4"/></pattern>'
-         f'<clipPath id="fp"><ellipse cx="{FX}" cy="{FY}" rx="62" ry="80"/></clipPath></defs>',
+         f'<clipPath id="fp"><ellipse cx="{FX}" cy="{FY}" rx="62" ry="80"/></clipPath>'
+         f'<radialGradient id="fpg" cx=".5" cy=".46" r=".5"><stop offset=".72" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'
+         f'<mask id="fpm"><ellipse cx="{FX}" cy="{FY}" rx="64" ry="84" fill="url(#fpg)"/></mask></defs>',
          f'<rect width="{W}" height="{H}" rx="14" fill="#06080d"/>']
     # hex rain: columns of bytes falling, dim red, brighter heads
     for c in range(0, W, 26):
         col = "".join(f'<tspan x="{c+6}" dy="16">{rnd.randrange(256):02X}</tspan>' for _ in range(40))
         delay, dur = -rnd.random() * 6, 4 + rnd.random() * 5
         o.append(f'<text class="rain" style="animation-duration:{dur:.1f}s;animation-delay:{delay:.1f}s" y="0" font-size="11" fill="{RED}" opacity="{.08 + rnd.random()*.14:.2f}">{col}</text>')
-    # fingerprint: broken concentric ridges, drawn in, then scanned
-    o.append(f'<g clip-path="url(#fp)">')
-    for k in range(1, 15):
-        rx, ry = 5 + k * 4.6, 7 + k * 6
-        circ = 2 * math.pi * math.sqrt((rx * rx + ry * ry) / 2)
-        gaps = " ".join(f"{rnd.uniform(circ*.08, circ*.3):.0f} {rnd.uniform(3, 12):.0f}" for _ in range(5))
-        o.append(f'<ellipse cx="{FX + rnd.uniform(-2,2):.1f}" cy="{FY + 8 - k*0.6:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="none" stroke="{CYAN}" stroke-width="1.6" stroke-linecap="round" '
-                 f'stroke-dasharray="{gaps}" opacity="0" transform="rotate({rnd.uniform(-8,8):.0f} {FX} {FY})">'
-                 f'<animate attributeName="opacity" from="0" to=".85" begin="{.2 + k*.07:.2f}s" dur=".4s" fill="freeze"/>'
-                 f'<animate attributeName="stroke" to="{GREEN}" begin="5.2s" dur=".3s" fill="freeze"/></ellipse>')
-    o.append(f'<rect class="scanl" x="{FX-70}" y="{FY-2}" width="140" height="4" fill="{CYAN}" opacity=".9"/>')
+    # fingerprint: ridges are level lines of a loop-pattern field (hairpin core, arches below), with breaks and minutiae
+    rid = ridges(FX, FY)
+    pool = [tuple(map(float, pt.split())) for _, d, _ in rid[3:] for pt in d.replace("M", " L").split(" L") if pt.strip()]
+    pool = [(x, y) for x, y in pool if ((x - FX) / 50) ** 2 + ((y - FY) / 66) ** 2 < 1]
+    minutiae = rnd.sample(pool, 9)
+    o.append('<g mask="url(#fpm)">')
+    for k, d, dash in rid:
+        o.append(f'<path d="{d}" fill="none" stroke="{CYAN}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="{dash}" opacity="0">'
+                 f'<animate attributeName="opacity" from="0" to=".9" begin="{.2 + k*.06:.2f}s" dur=".4s" fill="freeze"/>'
+                 f'<animate attributeName="stroke" to="{GREEN}" begin="5.2s" dur=".3s" fill="freeze"/></path>')
     o.append('</g>')
+    for x, y in minutiae:
+        o.append(fade(4.4, f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.2" fill="none" stroke="{RED}" stroke-width="1.2"/>'))
+    o.append(f'<g clip-path="url(#fp)"><rect class="scanl" x="{FX-70}" y="{FY-2}" width="140" height="4" fill="{CYAN}" opacity=".9"/></g>')
     o.append(f'<rect x="{FX-82}" y="{FY-100}" width="164" height="200" rx="10" fill="none" stroke="{CYAN}" stroke-opacity=".35" stroke-dasharray="14 136 14 0"/>')
     # status lines under the print
     steps = [(.6, "BIOMETRIC SCAN", DIM), (2.4, "MATCHING 1,337,420 RECORDS", DIM), (4.4, "MATCH · 99.97%", GOLD), (5.2, "IDENTITY CONFIRMED", GREEN)]
