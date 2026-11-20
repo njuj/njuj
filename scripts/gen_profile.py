@@ -1,4 +1,4 @@
-"""Generates assets/lab.svg and assets/orbit.svg.  Run: python scripts/gen_profile.py assets
+"""Generates the static animated panels in assets/ (intro, lab, orbit, case files, footer).  Run: python scripts/gen_profile.py assets
 Pure SVG: SMIL + CSS keyframes, no JS (GitHub strips scripts)."""
 import math, random, sys
 from pathlib import Path
@@ -185,4 +185,113 @@ def orbit():
 
 (OUT / "lab.svg").write_text(lab(), encoding="utf-8", newline="\n")
 (OUT / "orbit.svg").write_text(orbit(), encoding="utf-8", newline="\n")
+
+
+# ---------------------------------------------------------------- intro.svg
+def intro():
+    W, H, FX, FY = 900, 320, 190, 160
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{FONT}">',
+         '<defs><style>'
+         '.rain{animation:rn 6s linear infinite}@keyframes rn{from{transform:translateY(-320px)}to{transform:translateY(320px)}}'
+         '.scanl{animation:sl 2.2s ease-in-out 3 alternate}@keyframes sl{from{transform:translateY(-70px)}to{transform:translateY(70px)}}'
+         '.jit{animation:j 4s steps(1) infinite}@keyframes j{0%,88%,100%{transform:none}89%{transform:translate(-4px,1px)}91%{transform:translate(3px,-2px)}93%{transform:translate(-1px,0)}}'
+         '.rgbr{animation:jr 4s steps(1) infinite}@keyframes jr{0%,88%,100%{transform:translate(0,0);opacity:0}89%,93%{transform:translate(5px,0);opacity:.8}}'
+         '.rgbc{animation:jc 4s steps(1) infinite}@keyframes jc{0%,88%,100%{transform:translate(0,0);opacity:0}89%,93%{transform:translate(-5px,0);opacity:.8}}'
+         '.blink{animation:b 1s steps(1) infinite}@keyframes b{50%{opacity:0}}'
+         '.beat{animation:hb 2.4s ease-in-out infinite}@keyframes hb{0%,100%{opacity:.12}12%{opacity:.45}24%{opacity:.15}36%{opacity:.4}}'
+         '</style>'
+         f'<radialGradient id="vig" r=".8"><stop offset=".5" stop-color="{RED}" stop-opacity="0"/><stop offset="1" stop-color="{RED}" stop-opacity=".45"/></radialGradient>'
+         f'<pattern id="crt" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#000" opacity=".4"/></pattern>'
+         f'<clipPath id="fp"><ellipse cx="{FX}" cy="{FY}" rx="62" ry="80"/></clipPath></defs>',
+         f'<rect width="{W}" height="{H}" rx="14" fill="#06080d"/>']
+    # hex rain: columns of bytes falling, dim red, brighter heads
+    for c in range(0, W, 26):
+        col = "".join(f'<tspan x="{c+6}" dy="16">{rnd.randrange(256):02X}</tspan>' for _ in range(40))
+        delay, dur = -rnd.random() * 6, 4 + rnd.random() * 5
+        o.append(f'<text class="rain" style="animation-duration:{dur:.1f}s;animation-delay:{delay:.1f}s" y="0" font-size="11" fill="{RED}" opacity="{.08 + rnd.random()*.14:.2f}">{col}</text>')
+    # fingerprint: broken concentric ridges, drawn in, then scanned
+    o.append(f'<g clip-path="url(#fp)">')
+    for k in range(1, 15):
+        rx, ry = 5 + k * 4.6, 7 + k * 6
+        circ = 2 * math.pi * math.sqrt((rx * rx + ry * ry) / 2)
+        gaps = " ".join(f"{rnd.uniform(circ*.08, circ*.3):.0f} {rnd.uniform(3, 12):.0f}" for _ in range(5))
+        o.append(f'<ellipse cx="{FX + rnd.uniform(-2,2):.1f}" cy="{FY + 8 - k*0.6:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="none" stroke="{CYAN}" stroke-width="1.6" stroke-linecap="round" '
+                 f'stroke-dasharray="{gaps}" opacity="0" transform="rotate({rnd.uniform(-8,8):.0f} {FX} {FY})">'
+                 f'<animate attributeName="opacity" from="0" to=".85" begin="{.2 + k*.07:.2f}s" dur=".4s" fill="freeze"/>'
+                 f'<animate attributeName="stroke" to="{GREEN}" begin="5.2s" dur=".3s" fill="freeze"/></ellipse>')
+    o.append(f'<rect class="scanl" x="{FX-70}" y="{FY-2}" width="140" height="4" fill="{CYAN}" opacity=".9"/>')
+    o.append('</g>')
+    o.append(f'<rect x="{FX-82}" y="{FY-100}" width="164" height="200" rx="10" fill="none" stroke="{CYAN}" stroke-opacity=".35" stroke-dasharray="14 136 14 0"/>')
+    # status lines under the print
+    steps = [(.6, "BIOMETRIC SCAN", DIM), (2.4, "MATCHING 1,337,420 RECORDS", DIM), (4.4, "MATCH · 99.97%", GOLD), (5.2, "IDENTITY CONFIRMED", GREEN)]
+    for i, (t, s, col) in enumerate(steps):
+        o.append(fade(t, f'<text x="{FX}" y="{FY + 124 + 0*i}" text-anchor="middle" font-size="11" letter-spacing="2" fill="{col}">{s}</text>'
+                         + (f'<set attributeName="opacity" to="0" begin="{steps[i+1][0]:.2f}s" fill="freeze"/>' if i < len(steps) - 1 else '')))
+    # name: RGB-split glitch
+    nx, ny = 560, 150
+    name = f'font-size="92" font-weight="800" letter-spacing="14" text-anchor="middle"'
+    o.append(fade(5.4, f'<g class="jit"><text class="rgbr" x="{nx}" y="{ny}" {name} fill="{RED}">KIRA</text>'
+                       f'<text class="rgbc" x="{nx}" y="{ny}" {name} fill="{CYAN}">KIRA</text>'
+                       f'<text x="{nx}" y="{ny}" {name} fill="#e9edf2">KIRA</text></g>'))
+    o.append(fade(6.0, f'<text x="{nx}" y="{ny+38}" text-anchor="middle" font-size="13" letter-spacing="3" fill="{TXT}">MALWARE HUNTER · REVERSE ENGINEER · DFIR</text>'
+                       f'<text x="{nx}" y="{ny+58}" text-anchor="middle" font-size="13" letter-spacing="3" fill="{DIM}">BUG HUNTER · TOOL BUILDER</text>'))
+    o.append(fade(6.6, f'<text x="{nx}" y="{ny+100}" text-anchor="middle" font-size="12" letter-spacing="4" fill="{GREEN}">ACCESS GRANTED <tspan class="blink">█</tspan></text>'))
+    o.append(fade(0, f'<text x="24" y="28" font-size="10.5" letter-spacing="2" fill="{RED}">● SESSION 0x4B495241 · TRACE ACTIVE</text>'))
+    o.append(f'<rect width="{W}" height="{H}" rx="14" fill="url(#crt)"/><rect width="{W}" height="{H}" rx="14" fill="url(#vig)" class="beat"/>')
+    o.append(f'<rect x=".5" y=".5" width="{W-1}" height="{H-1}" rx="14" fill="none" stroke="{LINE}"/></svg>')
+    return "".join(o)
+
+
+# ---------------------------------------------------------------- case files
+CASES = [("unmask", "RAT CONFIGS", "Fake cheats that drop njRAT / XWorm", "Unwraps every stage, decrypts the C2 config", "30 tests · never runs the sample"),
+         ("ghost-hunter", "MEMORY FORENSICS", "Code injected into running processes", "Shellcode, hollowing, hooks, stomped modules", "28 tests · read-only"),
+         ("driver-guard", "KERNEL · BYOVD", "Signed drivers used to kill antivirus", "LOLDrivers by file + Authenticode hash", "14 tests · hash matches Windows"),
+         ("evtx-hunter", "DFIR · EVENT LOGS", "Attackers hiding in Windows logs", "Own .evtx parser, ATT&CK rules, hidden records", "39 tests · zero deps"),
+         ("panoptes", "NETWORK · C2", "Beacons, DGAs, DNS exfiltration", "Every lookup and the program behind it", "21 tests · DNS trap"),
+         ("unwrap", "DEOBFUSCATION", "Obfuscated PowerShell, JS, VBS, batch", "Peels it layer by layer, never executes", "95 tests · checked vs real interpreters")]
+
+
+def case(n, name, area, subject, method, status, accent):
+    W, H = 600, 230
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{FONT}">',
+         '<defs><style>.stamp{animation:st .35s cubic-bezier(.2,1.6,.4,1) both;animation-delay:2.6s;transform-origin:500px 60px}'
+         '@keyframes st{from{transform:rotate(-14deg) scale(2.4);opacity:0}to{transform:rotate(-14deg) scale(1);opacity:.85}}</style></defs>',
+         f'<rect x=".5" y=".5" width="{W-1}" height="{H-1}" rx="14" fill="#0d1018" stroke="{LINE}"/>',
+         f'<path d="M0 14a14 14 0 0 1 14-14h150l18 20H{W-14}a14 14 0 0 1 14 14v10H0z" fill="#121726"/>',
+         f'<text x="22" y="24" font-size="10.5" letter-spacing="3" fill="{DIM}">CASE FILE #{n:03d} · {esc(area)}</text>',
+         f'<rect x="0" y="40" width="4" height="{H-40}" fill="{accent}"/>',
+         f'<text x="26" y="78" font-size="28" font-weight="800" fill="#e9edf2">{esc(name)}</text>']
+    rows = [("SUBJECT", subject), ("METHOD", method), ("STATUS", status)]
+    for i, (k, v) in enumerate(rows):
+        y = 116 + i * 30
+        o.append(f'<text x="26" y="{y}" font-size="10.5" letter-spacing="2" fill="{DIM}">{k}</text>')
+        o.append(f'<text x="118" y="{y}" font-size="13" fill="{TXT if i < 2 else GREEN}">{esc(v)}</text>')
+        wbar = min(9 * len(v) + 8, 460)
+        o.append(f'<rect x="114" y="{y-14}" width="{wbar}" height="19" fill="#000"><animate attributeName="width" from="{wbar}" to="0" begin="{.6 + i*.6:.1f}s" dur=".45s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".7 0 .3 1"/></rect>')
+    o.append(f'<g class="stamp"><rect x="430" y="40" width="140" height="40" rx="4" fill="none" stroke="{RED}" stroke-width="3"/>'
+             f'<text x="500" y="67" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="3" fill="{RED}">CLASSIFIED</text></g>')
+    o.append(f'<text x="{W-22}" y="{H-16}" text-anchor="end" font-size="11" fill="{DIM}">open file ↗</text></svg>')
+    return "".join(o)
+
+
+# ---------------------------------------------------------------- footer
+def footer():
+    W, H = 900, 150
+    msg = "THE LOGS NEVER LIE"
+    hexmsg = " ".join(f"{ord(c):02X}" for c in msg)
+    flat = f"M40 70 H360 l10 -26 l10 52 l10 -40 l8 14 H{W-40}"
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{FONT}">'
+            '<defs><style>.blink{animation:b 1s steps(1) infinite}@keyframes b{50%{opacity:0}}</style></defs>'
+            f'<rect width="{W}" height="{H}" rx="14" fill="#06080d"/>'
+            f'<path d="{flat}" fill="none" stroke="{RED}" stroke-width="2" stroke-dasharray="1100" stroke-dashoffset="1100" opacity=".8">'
+            f'<animate attributeName="stroke-dashoffset" to="0" dur="2.6s" begin=".2s" fill="freeze"/></path>'
+            + fade(2.9, f'<text x="{W/2}" y="112" text-anchor="middle" font-size="15" font-weight="800" letter-spacing="6" fill="{RED}">CONNECTION TERMINATED <tspan class="blink">_</tspan></text>')
+            + fade(3.6, f'<text x="{W/2}" y="134" text-anchor="middle" font-size="10.5" letter-spacing="2" fill="#3a4250">{hexmsg}</text>')
+            + f'<rect x=".5" y=".5" width="{W-1}" height="{H-1}" rx="14" fill="none" stroke="{LINE}"/></svg>')
+
+
+for i, (name, area, subj, meth, stat) in enumerate(CASES, 1):
+    (OUT / f"case-{name}.svg").write_text(case(i, name, area, subj, meth, stat, [RED, RED, GREEN, CYAN, VIOLET, GOLD][i - 1]), encoding="utf-8", newline="\n")
+(OUT / "intro.svg").write_text(intro(), encoding="utf-8", newline="\n")
+(OUT / "footer.svg").write_text(footer(), encoding="utf-8", newline="\n")
 print("ok")
