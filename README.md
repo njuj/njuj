@@ -16,11 +16,11 @@
 <br/>
 
 <p align="center">
-  <img src="assets/terminal.svg" width="88%" alt="kira@njuj terminal session"/>
+  <img src="assets/terminal.svg" width="100%" alt="kira@njuj terminal session"/>
 </p>
 
 <p align="center">
-  <img src="assets/heartbeat.svg" width="88%" alt="heartbeat drawn from the last 60 days of commits, refreshed daily"/>
+  <img src="assets/heartbeat.svg" width="100%" alt="heartbeat drawn from the last 60 days of commits, refreshed daily"/>
 </p>
 
 <br/>
@@ -28,19 +28,15 @@
 <h3 align="center"><code>[ LIVE DISSECTION ]</code></h3>
 
 <p align="center">
-  <img src="assets/lab.svg" width="88%" alt="unmask tracing a fake FPS booster to the njRAT inside and decrypting its C2 config, without ever running it"/>
+  <img src="assets/lab.svg" width="100%" alt="unmask tracing a fake FPS booster to the njRAT inside and decrypting its C2 config, without ever running it"/>
 </p>
 
 <br/>
 
-<p align="center">
-  <img src="assets/radar.svg" width="88%" alt="tech radar"/>
-</p>
-
 <h3 align="center"><code>[ OBSESSIONS ]</code></h3>
 
 <p align="center">
-  <img src="assets/orbit.svg" width="94%" alt="interests orbiting a watching eye: reverse engineering, malware analysis, DFIR, Windows internals, tool building, bug bounty, AI security, VM labs, second brain, CTF and crackmes, full-stack, nyx CYBERTOOL"/>
+  <img src="assets/orbit.svg" width="100%" alt="interests orbiting a watching eye: reverse engineering, malware analysis, DFIR, Windows internals, tool building, bug bounty, AI security, VM labs, second brain, CTF and crackmes, full-stack, nyx CYBERTOOL"/>
 </p>
 
 <h3 align="center"><code>[ CASE FILES ]</code></h3>
@@ -72,9 +68,9 @@
 <h3 align="center"><code>[ BODY COUNT ]</code></h3>
 
 <p align="center">
-  <img src="assets/bodycount.svg" width="88%" alt="tools built, stars, commits this year and streaks, refreshed daily"/>
+  <img src="assets/bodycount.svg" width="100%" alt="tools built, stars, commits this year and streaks, refreshed daily"/>
   <br/>
-  <img src="assets/infection.svg" width="94%" alt="a year of commits as a grid: a red infection spreads from patient zero, then a cyan scanner cleans it"/>
+  <img src="assets/infection.svg" width="100%" alt="a year of commits as a grid: a red infection spreads from patient zero, then a cyan scanner cleans it"/>
 </p>
 
 <h3 align="center"><code>[ ARSENAL ]</code></h3>
