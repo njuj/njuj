@@ -4,7 +4,7 @@
 -->
 
 <p align="center">
-  <img src="assets/intro.svg" width="100%" alt="fingerprint scan: KIRA — Malware Hunter · Reverse Engineer · DFIR · Bug Hunter · Tool Builder — access granted"/>
+  <img src="assets/intro.svg" width="100%" alt="fingerprint scan: KIRA — Malware Hunter · Reverse Engineer · DFIR · Bug Hunter · Web Dev · Vibe Coder · Tool Builder — access granted"/>
 </p>
 
 <p align="center">
@@ -82,7 +82,9 @@
 <p align="center">
   <img src="https://skillicons.dev/icons?i=python,c,cpp,cs,go,rust,js,php,mysql,bash,powershell,regex&theme=dark&perline=12" alt="python, C, C++, C#, Go, Rust, JavaScript, PHP, SQL, Bash, PowerShell, regex"/>
   <br/>
-  <img src="https://skillicons.dev/icons?i=linux,windows,docker,git&theme=dark" alt="Linux, Windows, Docker, Git"/>
+  <img src="https://skillicons.dev/icons?i=html,css,ts,react,nextjs,nodejs,tailwind,vite&theme=dark" alt="HTML, CSS, TypeScript, React, Next.js, Node.js, Tailwind, Vite"/>
+  <br/>
+  <img src="https://skillicons.dev/icons?i=linux,windows,docker,git,vscode&theme=dark" alt="Linux, Windows, Docker, Git, VS Code"/>
 </p>
 
 <p align="center">

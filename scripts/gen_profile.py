@@ -234,7 +234,7 @@ def intro():
                        f'<text class="rgbc" x="{nx}" y="{ny}" {name} fill="{CYAN}">KIRA</text>'
                        f'<text x="{nx}" y="{ny}" {name} fill="#e9edf2">KIRA</text></g>'))
     o.append(fade(6.0, f'<text x="{nx}" y="{ny+38}" text-anchor="middle" font-size="13" letter-spacing="3" fill="{TXT}">MALWARE HUNTER · REVERSE ENGINEER · DFIR</text>'
-                       f'<text x="{nx}" y="{ny+58}" text-anchor="middle" font-size="13" letter-spacing="3" fill="{DIM}">BUG HUNTER · TOOL BUILDER</text>'))
+                       f'<text x="{nx}" y="{ny+58}" text-anchor="middle" font-size="13" letter-spacing="3" fill="{DIM}">BUG HUNTER · WEB DEV · VIBE CODER · TOOL BUILDER</text>'))
     o.append(fade(6.6, f'<text x="{nx}" y="{ny+100}" text-anchor="middle" font-size="12" letter-spacing="4" fill="{GREEN}">ACCESS GRANTED <tspan class="blink">█</tspan></text>'))
     o.append(fade(0, f'<text x="24" y="28" font-size="10.5" letter-spacing="2" fill="{RED}">● SESSION 0x4B495241 · TRACE ACTIVE</text>'))
     o.append(f'<rect width="{W}" height="{H}" rx="14" fill="url(#crt)"/><rect width="{W}" height="{H}" rx="14" fill="url(#vig)" class="beat"/>')
