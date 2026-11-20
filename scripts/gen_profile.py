@@ -188,47 +188,34 @@ def orbit():
 
 
 # ---------------------------------------------------------------- intro.svg
-def ridges(fx, fy, rx=66, ry=88, gap=5.4):
-    """Fingerprint ridge polylines: (index, path, dasharray). Level lines of a field with a hairpin core and flattening arches."""
-    r2 = random.Random(7)
-    cx, cy = fx + 3, fy - 16
-
-    def phi(dx, dy):
-        wx, wy = dx + 3.4 * math.sin(dy / 15 + 1), dy + 2.2 * math.sin(dx / 12)
-        wx += 0.18 * wy  # slight slant, like a real loop
-        dyp = wy + 12 if wy < -12 else (0 if wy < 0 else wy)  # core is a short segment, so inner ridges are hairpins
-        w = 1 / (1 + (max(wy, 0) / 24) ** 2)  # below the core ridges flatten into arches
-        return math.sqrt(wx * wx * w + dyp * dyp * .8)
-
-    out, k = [], 0
-    while True:
-        k += 1
-        lv, pts = k * gap, []
-        for i in range(260):
-            t = 2 * math.pi * i / 259
-            c, sn, r = math.cos(t), math.sin(t), 0.0
-            while r < 260 and phi(r * c, r * sn) < lv:
-                r += 1.5
-            lo, hi = max(r - 1.5, 0), r
-            for _ in range(8):
-                mid = (lo + hi) / 2
-                lo, hi = (mid, hi) if phi(mid * c, mid * sn) < lv else (lo, mid)
-            pts.append((cx + hi * c, cy + hi * sn))
-        inside = [((x - fx) / rx) ** 2 + ((y - fy) / ry) ** 2 <= 1 for x, y in pts]
-        if not any(inside):
-            break
-        segs, cur = [], []
-        for (x, y), ok in zip(pts, inside):
-            if ok:
-                cur.append(f"{x:.1f} {y:.1f}")
-            elif cur:
-                segs.append(cur); cur = []
-        if cur:
-            segs.append(cur)
-        d = " ".join("M" + " L".join(sg) for sg in segs if len(sg) > 1)
-        dash = " ".join(f"{r2.uniform(30, 120):.0f} {r2.uniform(3, 6):.1f}" for _ in range(6))
-        out.append((k, d, dash))
-    return out
+def emblem(t0=0.2):
+    """KIRA emblem in a 460x460 box: hexagon, K, a red eye where the arms meet. Draws itself in from t0 seconds."""
+    C, JX, JY = 230, 206, 222
+    hexp = lambda R: " ".join(f"{C+R*math.cos(math.radians(-90+60*i)):.1f},{C+R*math.sin(math.radians(-90+60*i)):.1f}" for i in range(6))
+    ticks = "".join(
+        f'<line x1="{C+196*math.cos(a):.1f}" y1="{C+196*math.sin(a):.1f}" x2="{C+(206 if i % 5 else 214)*math.cos(a):.1f}" y2="{C+(206 if i % 5 else 214)*math.sin(a):.1f}" '
+        f'stroke="{GREEN}" stroke-opacity="{.25 if i % 5 else .6}" stroke-width="2"/>' for i in range(60) for a in [math.radians(i * 6)])
+    return (f'<defs><linearGradient id="e-ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{CYAN}"/><stop offset="1" stop-color="{GREEN}"/></linearGradient>'
+            f'<clipPath id="e-hx"><polygon points="{hexp(176)}"/></clipPath><clipPath id="e-band"><rect x="0" y="112" width="460" height="232"/></clipPath>'
+            f'<filter id="e-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
+            f'<radialGradient id="e-core"><stop offset="0" stop-color="{RED}" stop-opacity=".4"/><stop offset="1" stop-color="{RED}" stop-opacity="0"/></radialGradient></defs>'
+            + fade(t0, f'<g>{ticks}<animateTransform attributeName="transform" type="rotate" from="0 {C} {C}" to="360 {C} {C}" dur="60s" repeatCount="indefinite"/></g>')
+            + f'<polygon points="{hexp(186)}" fill="#0a0f16" stroke="url(#e-ink)" stroke-width="7" stroke-linejoin="round" filter="url(#e-glow)" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100">'
+              f'<animate attributeName="stroke-dashoffset" to="0" begin="{t0:.2f}s" dur="1.2s" fill="freeze"/></polygon>'
+            + f'<polygon points="{hexp(168)}" fill="none" stroke="{GREEN}" stroke-opacity=".25" stroke-width="1.5" stroke-dasharray="6 6"/>'
+            + fade(t0 + 1.1, f'<g clip-path="url(#e-hx)"><g filter="url(#e-glow)" clip-path="url(#e-band)" class="jit">'
+                             f'<rect x="146" y="112" width="44" height="232" fill="url(#e-ink)"/>'
+                             f'<line x1="{JX}" y1="{JY}" x2="330" y2="98" stroke="url(#e-ink)" stroke-width="42"/>'
+                             f'<line x1="{JX}" y1="{JY}" x2="335" y2="358" stroke="url(#e-ink)" stroke-width="42"/></g></g>')
+            + fade(t0 + 1.9, f'<circle cx="{JX}" cy="{JY+4}" r="70" fill="url(#e-core)" class="beat"/>'
+                             f'<g transform="translate({JX} {JY+4})"><g><animateTransform attributeName="transform" type="scale" values="1 0;1 1;1 1;1 .05;1 1" keyTimes="0;.06;.92;.96;1" dur="6s" begin="{t0+1.9:.2f}s" repeatCount="indefinite"/>'
+                             f'<g transform="translate({-JX} {-JY-4})" filter="url(#e-glow)">'
+                             f'<path d="M{JX-52} {JY+4} Q{JX} {JY-38} {JX+52} {JY+4} Q{JX} {JY+46} {JX-52} {JY+4}Z" fill="#06080d" stroke="{RED}" stroke-width="5"/>'
+                             f'<g><circle cx="{JX}" cy="{JY+4}" r="16" fill="{RED}"/><ellipse cx="{JX}" cy="{JY+4}" rx="4.5" ry="12" fill="#06080d"/><circle cx="{JX+6}" cy="{JY-3}" r="3" fill="#fff" opacity=".85"/>'
+                             f'<animateTransform attributeName="transform" type="translate" values="0 0;-14 0;-14 0;12 0;12 0;0 0" keyTimes="0;.1;.4;.5;.8;1" dur="7s" repeatCount="indefinite"/></g>'
+                             f'</g></g></g>')
+            + fade(t0 + 2.4, f'<text x="{C}" y="388" text-anchor="middle" font-size="17" font-weight="700" letter-spacing="9" fill="{GREEN}" opacity=".85">KIRA</text>'
+                             f'<text x="{C}" y="86" text-anchor="middle" font-size="11" letter-spacing="3" fill="{RED}" opacity=".8">0x4B495241</text>'))
 
 
 def intro():
@@ -236,7 +223,7 @@ def intro():
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{FONT}">',
          '<defs><style>'
          '.rain{animation:rn 6s linear infinite}@keyframes rn{from{transform:translateY(-320px)}to{transform:translateY(320px)}}'
-         '.scanl{animation:sl 2.2s ease-in-out 3 alternate}@keyframes sl{from{transform:translateY(-70px)}to{transform:translateY(70px)}}'
+         '.scanl{animation:sl 2.2s ease-in-out 3 alternate forwards}@keyframes sl{from{transform:translateY(-70px)}to{transform:translateY(70px)}}'
          '.jit{animation:j 4s steps(1) infinite}@keyframes j{0%,88%,100%{transform:none}89%{transform:translate(-4px,1px)}91%{transform:translate(3px,-2px)}93%{transform:translate(-1px,0)}}'
          '.rgbr{animation:jr 4s steps(1) infinite}@keyframes jr{0%,88%,100%{transform:translate(0,0);opacity:0}89%,93%{transform:translate(5px,0);opacity:.8}}'
          '.rgbc{animation:jc 4s steps(1) infinite}@keyframes jc{0%,88%,100%{transform:translate(0,0);opacity:0}89%,93%{transform:translate(-5px,0);opacity:.8}}'
@@ -245,32 +232,18 @@ def intro():
          '</style>'
          f'<radialGradient id="vig" r=".8"><stop offset=".5" stop-color="{RED}" stop-opacity="0"/><stop offset="1" stop-color="{RED}" stop-opacity=".45"/></radialGradient>'
          f'<pattern id="crt" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#000" opacity=".4"/></pattern>'
-         f'<clipPath id="fp"><ellipse cx="{FX}" cy="{FY}" rx="62" ry="80"/></clipPath>'
-         f'<radialGradient id="fpg" cx=".5" cy=".46" r=".5"><stop offset=".72" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'
-         f'<mask id="fpm"><ellipse cx="{FX}" cy="{FY}" rx="64" ry="84" fill="url(#fpg)"/></mask></defs>',
+         f'<clipPath id="fp"><polygon points="{" ".join(f"{FX+80*math.cos(math.radians(-90+60*i)):.1f},{FY+80*math.sin(math.radians(-90+60*i)):.1f}" for i in range(6))}"/></clipPath></defs>',
          f'<rect width="{W}" height="{H}" rx="14" fill="#06080d"/>']
     # hex rain: columns of bytes falling, dim red, brighter heads
     for c in range(0, W, 26):
         col = "".join(f'<tspan x="{c+6}" dy="16">{rnd.randrange(256):02X}</tspan>' for _ in range(40))
         delay, dur = -rnd.random() * 6, 4 + rnd.random() * 5
         o.append(f'<text class="rain" style="animation-duration:{dur:.1f}s;animation-delay:{delay:.1f}s" y="0" font-size="11" fill="{RED}" opacity="{.08 + rnd.random()*.14:.2f}">{col}</text>')
-    # fingerprint: ridges are level lines of a loop-pattern field (hairpin core, arches below), with breaks and minutiae
-    rid = ridges(FX, FY)
-    pool = [tuple(map(float, pt.split())) for _, d, _ in rid[3:] for pt in d.replace("M", " L").split(" L") if pt.strip()]
-    pool = [(x, y) for x, y in pool if ((x - FX) / 50) ** 2 + ((y - FY) / 66) ** 2 < 1]
-    minutiae = rnd.sample(pool, 9)
-    o.append('<g mask="url(#fpm)">')
-    for k, d, dash in rid:
-        o.append(f'<path d="{d}" fill="none" stroke="{CYAN}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="{dash}" opacity="0">'
-                 f'<animate attributeName="opacity" from="0" to=".9" begin="{.2 + k*.06:.2f}s" dur=".4s" fill="freeze"/>'
-                 f'<animate attributeName="stroke" to="{GREEN}" begin="5.2s" dur=".3s" fill="freeze"/></path>')
-    o.append('</g>')
-    for x, y in minutiae:
-        o.append(fade(4.4, f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.2" fill="none" stroke="{RED}" stroke-width="1.2"/>'))
-    o.append(f'<g clip-path="url(#fp)"><rect class="scanl" x="{FX-70}" y="{FY-2}" width="140" height="4" fill="{CYAN}" opacity=".9"/></g>')
-    o.append(f'<rect x="{FX-82}" y="{FY-100}" width="164" height="200" rx="10" fill="none" stroke="{CYAN}" stroke-opacity=".35" stroke-dasharray="14 136 14 0"/>')
+    # the KIRA emblem builds itself, the eye opens, then the scanner checks it
+    o.append(f'<g transform="translate({FX-230*.4:.1f} {FY-230*.4:.1f}) scale(.4)">{emblem()}</g>')
+    o.append(f'<g clip-path="url(#fp)"><rect class="scanl" x="{FX-70}" y="{FY-2}" width="140" height="4" fill="{CYAN}" opacity=".9"><set attributeName="opacity" to="0" begin="6.5s" fill="freeze"/></rect></g>')
     # status lines under the print
-    steps = [(.6, "BIOMETRIC SCAN", DIM), (2.4, "MATCHING 1,337,420 RECORDS", DIM), (4.4, "MATCH · 99.97%", GOLD), (5.2, "IDENTITY CONFIRMED", GREEN)]
+    steps = [(.6, "VERIFYING SIGNATURE", DIM), (2.4, "MATCHING 1,337,420 RECORDS", DIM), (4.4, "MATCH · 99.97%", GOLD), (5.2, "IDENTITY CONFIRMED", GREEN)]
     for i, (t, s, col) in enumerate(steps):
         o.append(fade(t, f'<text x="{FX}" y="{FY + 124 + 0*i}" text-anchor="middle" font-size="11" letter-spacing="2" fill="{col}">{s}</text>'
                          + (f'<set attributeName="opacity" to="0" begin="{steps[i+1][0]:.2f}s" fill="freeze"/>' if i < len(steps) - 1 else '')))

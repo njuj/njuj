@@ -4,7 +4,7 @@
 -->
 
 <p align="center">
-  <img src="assets/intro.svg" width="100%" alt="fingerprint scan: KIRA — Malware Hunter · Reverse Engineer · DFIR · Bug Hunter · Web Dev · Vibe Coder · Tool Builder — access granted"/>
+  <img src="assets/intro.svg" width="100%" alt="KIRA emblem — hexagon, K and a watching red eye: KIRA — Malware Hunter · Reverse Engineer · DFIR · Bug Hunter · Web Dev · Vibe Coder · Tool Builder — access granted"/>
 </p>
 
 <p align="center">
