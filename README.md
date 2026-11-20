@@ -65,6 +65,14 @@
 </p>
 </details>
 
+<h3 align="center"><code>[ LATEST REPORTS ]</code></h3>
+
+<p align="center">
+  <a href="reports/001-fake-fps-booster/"><img src="reports/001-fake-fps-booster/cover.svg" width="100%" alt="Case 001: a fake FPS booster ZIP that hides njRAT and XWorm, both configurations decrypted statically"/></a>
+  <br/>
+  <sub><b>CASE #001</b> · <a href="reports/001-fake-fps-booster/">Fake FPS booster → njRAT + XWorm</a> · two delivery chains, both configs decrypted, nothing executed</sub>
+</p>
+
 <h3 align="center"><code>[ BODY COUNT ]</code></h3>
 
 <p align="center">

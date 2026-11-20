@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="460" viewBox="0 0 1280 460" font-family="'JetBrains Mono','Cascadia Code',Consolas,'Courier New',monospace">
+<defs>
+<style>
+.n{opacity:0;animation:up .6s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.flow{stroke-dasharray:6 8;animation:fl 1s linear infinite}
+@keyframes fl{to{stroke-dashoffset:-14}}
+.stamp{opacity:0;animation:st .4s cubic-bezier(.2,1.6,.4,1) 2.6s forwards;transform-origin:1110px 92px}
+@keyframes st{from{opacity:0;transform:rotate(-12deg) scale(2.2)}to{opacity:.9;transform:rotate(-12deg) scale(1)}}
+</style>
+<radialGradient id="g" cx="1" cy="0" r="1"><stop offset="0" stop-color="#ff0055" stop-opacity=".25"/><stop offset=".6" stop-color="#ff0055" stop-opacity="0"/></radialGradient>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#fff" stroke-opacity=".035"/></pattern>
+</defs>
+<rect width="1280" height="460" rx="18" fill="#0b0f17"/><rect width="1280" height="460" rx="18" fill="url(#grid)"/><rect width="1280" height="460" rx="18" fill="url(#g)"/>
+<rect x="48" y="44" width="6" height="58" rx="3" fill="#ff0055"/>
+<text x="72" y="70" font-size="13" letter-spacing="4" fill="#6e7681">CASE #001 · MALWARE ANALYSIS · 2026-11-20</text>
+<text x="72" y="106" font-size="38" font-weight="800" fill="#f0f3f6">Fake FPS booster → njRAT + XWorm</text>
+<text x="72" y="140" font-size="17" fill="#ff0055">Two delivery chains in one ZIP, both configurations decrypted, nothing executed.</text>
+<g class="stamp"><rect x="1030" y="70" width="160" height="44" rx="4" fill="none" stroke="#ff0055" stroke-width="3"/><text x="1110" y="99" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="3" fill="#ff0055">NEVER RUN</text></g>
+
+<g font-size="14">
+  <g class="n" style="animation-delay:.2s"><rect x="72" y="244" width="200" height="74" rx="12" fill="#111722" stroke="#1f2a3a"/><text x="92" y="275" font-weight="700" fill="#f0f3f6">FpsBooster_v2.1.zip</text><text x="92" y="298" font-size="12.5" fill="#8b949e">ZIP · 2 files · the bait</text></g>
+  <path class="flow" d="M276 281 H318 V218 H342" fill="none" stroke="#ff0055" stroke-width="2"/>
+  <path class="flow" d="M276 281 H318 V344 H342" fill="none" stroke="#ff0055" stroke-width="2"/>
+
+  <g class="n" style="animation-delay:.55s"><rect x="346" y="184" width="214" height="68" rx="12" fill="#111722" stroke="#1f2a3a"/><text x="366" y="213" font-weight="700" fill="#f0f3f6">FpsBooster.exe</text><text x="366" y="236" font-size="12.5" fill="#8b949e">.NET loader</text></g>
+  <g class="n" style="animation-delay:.55s"><rect x="346" y="310" width="214" height="68" rx="12" fill="#111722" stroke="#1f2a3a"/><text x="366" y="339" font-weight="700" fill="#f0f3f6">tools/Updater.exe</text><text x="366" y="362" font-size="12.5" fill="#8b949e">same loader + 3,116 B</text></g>
+  <path class="flow" d="M564 218 H600" stroke="#ff0055" stroke-width="2"/><path class="flow" d="M564 344 H600" stroke="#ff0055" stroke-width="2"/>
+
+  <g class="n" style="animation-delay:.9s"><rect x="604" y="184" width="250" height="68" rx="12" fill="#111722" stroke="#1f2a3a"/><text x="624" y="213" font-weight="700" fill="#f0f3f6">resource "icon_data"</text><text x="624" y="236" font-size="12.5" fill="#8b949e">XOR · key from MZ header</text></g>
+  <g class="n" style="animation-delay:.9s"><rect x="604" y="310" width="250" height="68" rx="12" fill="#111722" stroke="#1f2a3a"/><text x="624" y="339" font-weight="700" fill="#f0f3f6">overlay</text><text x="624" y="362" font-size="12.5" fill="#8b949e">reversed base64 → gzip</text></g>
+  <path class="flow" d="M858 218 H894" stroke="#ff0055" stroke-width="2"/><path class="flow" d="M858 344 H894" stroke="#ff0055" stroke-width="2"/>
+
+  <g class="n" style="animation-delay:1.25s"><rect x="898" y="184" width="310" height="68" rx="12" fill="#1a0b12" stroke="#ff0055" stroke-width="2"/><text x="918" y="213" font-weight="700" fill="#ff0055">✖ njRAT 0.7d</text><text x="918" y="236" font-size="12.5" fill="#c9d1d9">kira-lab-c2[.]ddns[.]net:5552</text></g>
+  <g class="n" style="animation-delay:1.25s"><rect x="898" y="310" width="310" height="68" rx="12" fill="#1a0b12" stroke="#ff0055" stroke-width="2"/><text x="918" y="339" font-weight="700" fill="#ff0055">✖ XWorm 5.6</text><text x="918" y="362" font-size="12.5" fill="#c9d1d9">AES key = MD5(mutex) · Telegram bot</text></g>
+</g>
+<g class="n" style="animation-delay:1.8s" font-size="12.5">
+  <rect x="72" y="404" width="168" height="28" rx="14" fill="none" stroke="#ff0055" stroke-opacity=".5"/><text x="156" y="423" text-anchor="middle" fill="#ff0055">tool: unmask</text>
+  <rect x="250" y="404" width="196" height="28" rx="14" fill="none" stroke="#ff0055" stroke-opacity=".5"/><text x="348" y="423" text-anchor="middle" fill="#ff0055">static analysis only</text>
+  <rect x="456" y="404" width="160" height="28" rx="14" fill="none" stroke="#ff0055" stroke-opacity=".5"/><text x="536" y="423" text-anchor="middle" fill="#ff0055">lab replica</text>
+  <rect x="626" y="404" width="230" height="28" rx="14" fill="none" stroke="#ff0055" stroke-opacity=".5"/><text x="741" y="423" text-anchor="middle" fill="#ff0055">T1027 · T1140 · T1547.001</text>
+</g>
+<rect x=".5" y=".5" width="1279" height="459" rx="18" fill="none" stroke="#1b2533"/>
+</svg>
