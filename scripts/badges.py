@@ -12,13 +12,10 @@ G = {  # 24x24 stroke glyph for tools with no logo of their own
 def badge(name, color, logo):
     if (LOGOS / f"{logo}.png").exists():
         from PIL import Image
-        m = Image.open(LOGOS / f"{logo}.png").getchannel("A")
+        m = Image.open(LOGOS / f"{logo}.png").getchannel("A").resize((36, 36), Image.LANCZOS).point(lambda v: v // 51 * 51)  # small: camo drops long URLs
         im = Image.new("RGBA", m.size, tuple(int(color[i:i + 2], 16) for i in (0, 2, 4)) + (255,)); im.putalpha(m)
         buf = io.BytesIO(); im.save(buf, "PNG", optimize=True)
         lg = urllib.parse.quote("data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), safe="")
-    elif (LOGOS / f"{logo}.svg").exists():
-        svg = re.sub(r'fill="#[0-9a-fA-F]{3,6}"', f'fill="#{color}"', (LOGOS / f"{logo}.svg").read_text(encoding="utf-8"))
-        lg = urllib.parse.quote("data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode(), safe="")
     elif logo in G:
         svg = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#{color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{G[logo]}</svg>'
         lg = urllib.parse.quote("data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode(), safe="")
